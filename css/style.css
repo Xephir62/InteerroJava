@@ -1,31 +1,41 @@
-.element {
-    padding: 10px;
-    margin-bottom: 10px;
-    border: 1px #ccc;
-    transition: opacity 0.5s ease-in-out;
-    opacity: 1;
-  }
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.card {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+
+
+
+#ecran2,
+#ecran3,
+#ecran4 {
+  display: none;
+}
+
+#ecran2.active,
+#ecran3.active,
+#ecran4.active {
+  display: block;
+}
+
+
+.selected {
+  background-color: red;
+}
   
-  .color-1 {
-    background-color: #535353;
-  }
-  
-  .color-2 {
-    background-color: #e0e0e0;
-  }
-  .hidden{
-
-    opacity: 0;
-    display: none;
-    
-  }
-  @keyframes bounce {
-    0% { transform: translateY(-20px);  opacity: 0;}
-    50% { transform: translateY(10px);  opacity: 1;}
-    100% { transform: translateY(0);  opacity: 1;}
-  }
-
-
-  .bounce{
-    animation: bounce 0.6 ;
-  }
