@@ -38,4 +38,6 @@ body {
 .selected {
   background-color: red;
 }
-  
+#btOkEcran2 {
+  display: none;
+}

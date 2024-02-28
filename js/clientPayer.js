@@ -1,88 +1,108 @@
-document.addEventListener("DOMContentLoaded", function() {
-    let btnOkEcran1 = document.getElementById("btOkEcran1");
-    let btnRetourEcran2 = document.getElementById("btRetourEcran2");
-    let btnOkEcran2 = document.getElementById("btOkEcran2");
-    let btnRetourEcran3 = document.getElementById("btRetourEcran3");
-    let btnOkEcran3 = document.getElementById("btOkEcran3");
-    let btnRetourEcran4 = document.getElementById("btRetourEcran4");
-    let ecran1 = document.getElementById("ecran1");
-    let ecran2 = document.getElementById("ecran2");
-    let ecran3 = document.getElementById("ecran3");
-    let ecran4 = document.getElementById("ecran4");
+window.addEventListener('DOMContentLoaded', function () {
 
-    btnOkEcran1.addEventListener("click", function() {
-        ecran1.classList.add("d-none"); 
-        ecran2.classList.remove("d-none"); 
+    document.getElementById("ecran2").style.display = "none";
+    document.getElementById("ecran3").style.display = "none";
+    document.getElementById("ecran4").style.display = "none";
+
+    document.getElementById("btEcran1").addEventListener("click", function () {
+        document.getElementById("ecran1").style.display = "none";
+        document.getElementById("ecran2").style.display = "block";
+    });
+    document.getElementById("btEcran2").addEventListener("click", function () {
+        document.getElementById("ecran2").style.display = "none";
+        document.getElementById("ecran3").style.display = "block";
+    });
+    document.getElementById("btEcran3").addEventListener("click", function () {
+        document.getElementById("ecran3").style.display = "none";
+        document.getElementById("ecran4").style.display = "block";
     });
 
-    btnRetourEcran2.addEventListener("click", function() {
-        ecran2.classList.add("d-none"); 
-        ecran1.classList.remove("d-none"); 
+    document.getElementById("btRetour2").addEventListener("click", function () {
+        document.getElementById("ecran2").style.display = "none";
+        document.getElementById("ecran1").style.display = "block";
+    });
+    document.getElementById("btRetour3").addEventListener("click", function () {
+        document.getElementById("ecran3").style.display = "none";
+        document.getElementById("ecran2").style.display = "block";
+    });
+    document.getElementById("btRetour4").addEventListener("click", function () {
+        document.getElementById("ecran4").style.display = "none";
+        document.getElementById("ecran3").style.display = "block";
     });
 
-    btnOkEcran2.addEventListener("click", function() {
-        ecran2.classList.add("d-none"); 
-        ecran3.classList.remove("d-none"); 
-    });
+    const forfaits = document.querySelectorAll('.card');
+    const btOk = document.getElementById('btEcran1');
+    let forfaitPrecedant = null;
 
-    btnRetourEcran3.addEventListener("click", function() {
-        ecran3.classList.add("d-none"); 
-        ecran2.classList.remove("d-none"); 
-    });
-
-    btnOkEcran3.addEventListener("click", function() {
-        ecran3.classList.add("d-none"); 
-        ecran4.classList.remove("d-none"); 
-    });
-
-    btnRetourEcran4.addEventListener("click", function() {
-        ecran4.classList.add("d-none"); 
-        ecran3.classList.remove("d-none"); 
-    });
-
-    
-    let forfaits = document.querySelectorAll(".card");
-    forfaits.forEach(function(forfait) {
-        forfait.addEventListener("mouseover", function() {
-            forfait.style.backgroundColor = "red"; 
-        });
-        forfait.addEventListener("mouseout", function() {
-            forfait.style.backgroundColor = ""; 
-        });
-    });
-
-    let forfaitSelectionne = null;
-
-    function toggleSelection(forfait) {
-        if (forfait === forfaitSelectionne) {
-            forfait.classList.toggle("selected");
-            forfaitSelectionne = null;
-        } else {
-            forfaits.forEach(function(item) {
-                item.classList.remove("selected");
-            });
-            forfait.classList.add("selected");
-            forfaitSelectionne = forfait;
-        }
-        checkSelection();
-    }
-
-    function checkSelection() {
-        if (forfaitSelectionne !== null) {
-            btnOkEcran1.removeAttribute("disabled");
-        } else {
-            btnOkEcran1.setAttribute("disabled", "disabled");
-        }
-    }
-
-    forfaits.forEach(function(forfait) {
-        forfait.addEventListener("click", function() {
-            toggleSelection(forfait);
+    forfaits.forEach(forfait => {
+        forfait.addEventListener("click", function () {
+            if (forfaitPrecedant !== null && forfaitPrecedant !== forfait) {
+                forfaitPrecedant.style.backgroundColor = "white";
+            }
+            if (forfait.style.backgroundColor === "red") {
+                forfait.style.backgroundColor = "white";
+                btOk.disabled = true;
+                forfaitPrecedant = null;
+            } else {
+                forfait.style.backgroundColor = "red";
+                btOk.disabled = false;
+                forfaitPrecedant = forfait;
+            }
         });
     });
 
-    btnOkEcran1.addEventListener("click", function() {
-        ecran2.classList.remove("d-none"); 
+    const btOk2 = document.getElementById('btEcran2');
+
+    let nbrAnnonce = document.getElementById("inputNb");
+
+    nbrAnnonce.addEventListener("input", function () {
+        let annonce = parseFloat(nbrAnnonce.value);
+        btOk2.disabled = !(annonce > 0);
     });
 
+    setupOptionsEcran3();
 });
+
+function setupOptionsEcran3() {
+    const isSelected = (option) => {
+        return option.style.backgroundColor === "red";
+    };
+
+    const screen = document.getElementById("ecran3");
+    const options = screen.querySelectorAll('.option');
+
+    let dupliqueSelected = false;
+    let auto96hSelected = false;
+
+    options.forEach((option, index) => {
+        option.addEventListener('click', () => {
+            if (isSelected(option)) {
+                option.style.backgroundColor = "white";
+                optionSelectionnee = "";
+            } else {
+                option.style.backgroundColor = "red";
+                optionSelectionnee = index + 1;
+            }
+
+            // Met à jour l'état des options "Duplique" et "Auto 96H"
+            if (index === 0) {
+                dupliqueSelected = !dupliqueSelected;
+            } else if (index === 1) {
+                auto96hSelected = !auto96hSelected;
+            }
+
+            // Vérifie si "Duplique" et "Auto 96H" sont sélectionnés, sélectionne automatiquement la troisième option
+            if (dupliqueSelected && auto96hSelected) {
+                options[2].style.backgroundColor = "red";
+                optionSelectionnee = 3;
+            } else {
+                options[2].style.backgroundColor = "white";
+            }
+        });
+    });
+}
+
+
+
+
+
